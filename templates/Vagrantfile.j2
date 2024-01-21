@@ -1,0 +1,16 @@
+ENV['VAGRANT_SERVER_URL'] = 'https://vagrant.elab.pro'
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/focal64"
+
+  teams = [{% for team in teams %}
+    { name: "{{ team.name }}", ip: "{{ team.ip }}"}, {% endfor %}
+  ]
+
+  teams.each do |team|
+    config.vm.define team[:name] do |node|
+      node.vm.network "private_network", type: "dhcp"
+      node.vm.hostname = "vuln"
+    end
+  end
+end
