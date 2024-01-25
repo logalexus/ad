@@ -5,8 +5,8 @@ teams:
   - ip: 10.10.10.3
     name: "mbl"
 
-  - ip: 10.10.10.4
-    name: "freeplay_club"
+  # - ip: 10.10.10.4
+  #   name: "freeplay_club"
   
-  - ip: 10.10.10.5
-    name: "n0-flagstrat"
+  # - ip: 10.10.10.5
+  #   name: "n0-flagstrat"

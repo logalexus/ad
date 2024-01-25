@@ -7,8 +7,8 @@ from utils import run_command
 
 TEMPLATE_PATH = "templates/"
 HOSTS_PATH = "ansible/"
-CONFIG_PATH = 
-
+CONFIG_PATH = "config.yml"
+PRIVATE_KEY_PATH = "../.vagrant/machines/{0}/virtualbox/private_key"
 
 @click.group()
 def cli():
@@ -17,11 +17,11 @@ def cli():
 
 @cli.command(help="Generate infrastructure configs")
 def generate():
-    teams = yaml.load(open('config.yml'), Loader=yaml.FullLoader)["teams"]
+    teams = yaml.load(open(CONFIG_PATH), Loader=yaml.FullLoader)["teams"]
     for i, team in enumerate(teams):
         team["id"] = f"team{i+1}"
-        team["port"] = 1000+i
-        team["private"] = f".vagrant/machines/{team['id']}/virtualbox/private_key"
+        team["port"] = 2200+i+1
+        team["private"] = PRIVATE_KEY_PATH.format(team["id"])
     print(teams)
 
     env = jinja2.Environment(loader=jinja2.FileSystemLoader('.'))
