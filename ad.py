@@ -6,6 +6,8 @@ import yaml
 from utils import run_command
 
 TEMPLATE_PATH = "templates/"
+HOSTS_PATH = "ansible/"
+CONFIG_PATH = 
 
 
 @click.group()
@@ -15,7 +17,7 @@ def cli():
 
 @cli.command(help="Generate infrastructure configs")
 def generate():
-    teams = yaml.load(open('config.yaml'), Loader=yaml.FullLoader)["teams"]
+    teams = yaml.load(open('config.yml'), Loader=yaml.FullLoader)["teams"]
     for i, team in enumerate(teams):
         team["id"] = f"team{i+1}"
         team["port"] = 1000+i
@@ -29,7 +31,7 @@ def generate():
     with open('Vagrantfile', 'w') as vagrant_file:
         vagrant_file.write(vagrant_template.render(teams=teams))
 
-    with open('ansible_inventory.ini', 'w') as inventory_file:
+    with open(HOSTS_PATH + 'inventory.ini', 'w') as inventory_file:
         inventory_file.write(inventory_template.render(teams=teams))
 
 
