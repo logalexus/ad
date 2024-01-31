@@ -1,4 +1,3 @@
 /.vagrant
 /Vagrantfile
 /__pycache__
-/ansible_inventory.ini

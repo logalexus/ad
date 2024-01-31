@@ -38,19 +38,19 @@ def generate():
 @cli.command(help="Destroy VM")
 @click.argument("name")
 def destroy(name):
-    cmd = ["vagrant", "destroy", name]
+    cmd = ["vagrant", "destroy", "-f", "--parallel", name]
     run_command(cmd)
 
 
 @cli.command(help="Destroy all VMs")
 def destroyall():
-    cmd = ["vagrant", "destroy"]
+    cmd = ["vagrant", "destroy", "-f", "--parallel"]
     run_command(cmd)
 
 
 @cli.command(help="UP all VMs")
 def up():
-    cmd = ["vagrant", "up"]
+    cmd = ["vagrant", "up", "--parallel"]
     run_command(cmd)
 
 

@@ -2,6 +2,10 @@ ENV['VAGRANT_SERVER_URL'] = 'https://vagrant.elab.pro'
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/focal64"
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "2048"
+    vb.cpus = "2"
+  end
 
   teams = [{% for team in teams %}
     { name: "{{ team.id }}", ip: "{{ team.ip }}", ssh_port: "{{ team.port }}"}, {% endfor %}
