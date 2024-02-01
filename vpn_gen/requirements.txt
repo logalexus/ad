@@ -1,0 +1,10 @@
+asn1crypto==0.24.0
+certifi==2019.6.16
+cffi
+cryptography==3.2
+Jinja2==2.11.1
+jmespath==0.9.4
+MarkupSafe==1.1.1
+pycparser==2.19
+pyOpenSSL==19.0.0
+six==1.12.0

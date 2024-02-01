@@ -1,0 +1,25 @@
+mode p2p
+
+port {{ config.VULN_PORT + team_num }}
+
+dev vuln{{ team_num }}
+dev-type tun
+proto udp
+
+txqueuelen 1000
+mssfix 0
+tun-mtu 6000
+cipher AES-256-CBC
+
+ifconfig 10.{{ 80 + team_num // 256 }}.{{ team_num % 256 }}.1 10.{{ 80 + team_num // 256 }}.{{ team_num % 256 }}.2
+
+keepalive 10 60
+
+ping-timer-rem
+
+persist-tun
+persist-key
+
+<secret>
+{{ static_key }}
+</secret>

@@ -1,0 +1,25 @@
+mode p2p
+
+port {{ config.JURY_PORT }}
+
+dev jury
+dev-type tun
+proto udp
+
+txqueuelen 1000
+mssfix 0
+tun-mtu 6000
+cipher AES-256-CBC
+
+ifconfig 10.10.10.1 10.10.10.10
+
+keepalive 10 60
+
+ping-timer-rem
+
+persist-tun
+persist-key
+
+<secret>
+{{ static_key }}
+</secret>

@@ -1,0 +1,37 @@
+client
+
+dev game
+dev-type tun
+proto udp
+
+remote {{ server_host }} {{ config.TEAM_PORT + team_num }}
+nobind
+
+dev tun
+persist-key
+persist-tun
+
+cipher AES-128-CBC
+verb 3
+
+remote-cert-tls server
+tls-client
+key-direction 1
+
+pull
+
+<ca>
+{{ ca_cert }}
+</ca>
+
+<cert>
+{{ cert }}
+</cert>
+
+<key>
+{{ key }}
+</key>
+
+<tls-auth>
+{{ static_key }}
+</tls-auth>

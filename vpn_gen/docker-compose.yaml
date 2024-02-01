@@ -1,0 +1,14 @@
+version: '3'
+services:
+  openvpn:
+    build: .
+    container_name: openvpn-server
+    devices:
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "30001-30010:30001-30010/udp"
+      - "31001-31010:31001-31010/udp"
+      - "32000:32000/udp"
+    restart: unless-stopped

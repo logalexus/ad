@@ -7,6 +7,12 @@ teams:
 
   # - ip: 10.10.10.4
   #   name: "freeplay_club"
-  
+
   # - ip: 10.10.10.5
   #   name: "n0-flagstrat"
+
+vpn-server:
+  ip: 180.80.80.80
+  creds:
+    username: "root"
+    password: "123456"

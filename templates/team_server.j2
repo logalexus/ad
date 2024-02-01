@@ -1,0 +1,50 @@
+topology subnet
+
+dev team{{ team_num }}
+dev-type tun
+
+port {{ config.TEAM_PORT + team_num }}
+proto udp
+
+cipher AES-128-CBC
+
+user nobody
+group nogroup
+persist-key
+persist-tun
+
+keepalive 10 120
+
+tls-server
+key-direction 0
+
+client-to-client
+
+mode server
+push "topology subnet"
+push "route 10.60.0.0 255.252.0.0"
+push "route 10.80.0.0 255.252.0.0"
+push "route 10.10.10.0 255.255.255.0"
+push "route-gateway 10.{{ 60 + team_num // 256 }}.{{ team_num % 256 }}.1"
+ifconfig 10.{{ 60 + team_num // 256 }}.{{ team_num % 256 }}.1 255.255.255.0
+ifconfig-pool 10.{{ 60 + team_num // 256 }}.{{ team_num % 256 }}.3 10.{{ 60 + team_num // 256 }}.{{ team_num % 256 }}.253
+
+<ca>
+{{ ca_cert }}
+</ca>
+
+<dh>
+{{ dhparam }}
+</dh>
+
+<cert>
+{{ cert }}
+</cert>
+
+<key>
+{{ key }}
+</key>
+
+<tls-auth>
+{{ static_key }}
+</tls-auth>
