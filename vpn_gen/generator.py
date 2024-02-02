@@ -56,7 +56,7 @@ class ConfigGenerator:
 
     @staticmethod
     def format_team_num(team_num):
-        return str(team_num).zfill(3)
+        return str(team_num)
 
     def _generate_team(self, team_num, per_team):
         static_key = crypto_utils.generate_static_key()

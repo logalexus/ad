@@ -4,6 +4,7 @@ import click
 import jinja2
 import yaml
 from utils import run_command
+from vpn_gen import gen
 
 TEMPLATE_PATH = "templates/"
 HOSTS_PATH = "ansible/"
@@ -33,6 +34,11 @@ def generate():
 
     with open(HOSTS_PATH + 'inventory.ini', 'w') as inventory_file:
         inventory_file.write(inventory_template.render(teams=teams))
+        
+    vpn_server = yaml.load(open(CONFIG_PATH), Loader=yaml.FullLoader)["vpn-server"]
+    teams = range(1, len(teams) + 1)
+    gen.run(teams, 6, vpn_server["ip"])
+    
 
 
 @cli.command(help="Destroy VM")

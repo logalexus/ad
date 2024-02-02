@@ -1,7 +1,7 @@
 import os
 
 BASE_DIR = os.path.dirname("./")
-RESULT_DIR = os.path.join(BASE_DIR, 'ansible')
+RESULT_DIR = os.path.join(BASE_DIR, 'ansible', 'vpn')
 TEMPLATES_PATH = os.path.join(BASE_DIR, 'templates')
 
 SERVER_CONFIG_DIR = os.path.join(RESULT_DIR, 'server')

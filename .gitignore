@@ -1,4 +1,6 @@
 /.vagrant
 /Vagrantfile
 /__pycache__
-./config.yml
+config.yml
+ansible/inventory.ini
+/ansible/vpn
