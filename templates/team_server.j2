@@ -3,6 +3,9 @@ topology subnet
 dev team{{ team_num }}
 dev-type tun
 
+log /teams_vpn.log
+verb 3
+
 port {{ config.TEAM_PORT + team_num }}
 proto udp
 

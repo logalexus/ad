@@ -144,7 +144,7 @@ def get_dhparam():
 
 def generate_static_key():
     p = subprocess.Popen(
-        ['openvpn', '--genkey', '--secret', '/dev/stdout'],
+        ['openvpn', '--genkey', 'secret', '/dev/stdout'],
         stdout=subprocess.PIPE,
     )
     stdout, _ = p.communicate()

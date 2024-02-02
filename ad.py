@@ -18,7 +18,10 @@ def cli():
 
 @cli.command(help="Generate infrastructure configs")
 def generate():
-    teams = yaml.load(open(CONFIG_PATH), Loader=yaml.FullLoader)["teams"]
+    config = yaml.load(open(CONFIG_PATH), Loader=yaml.FullLoader)
+    vpn_server = config["vpn-server"]
+    teams = config["teams"]
+    
     for i, team in enumerate(teams):
         team["id"] = f"team{i+1}"
         team["port"] = 2200+i+1
@@ -33,9 +36,8 @@ def generate():
         vagrant_file.write(vagrant_template.render(teams=teams))
 
     with open(HOSTS_PATH + 'inventory.ini', 'w') as inventory_file:
-        inventory_file.write(inventory_template.render(teams=teams))
-        
-    vpn_server = yaml.load(open(CONFIG_PATH), Loader=yaml.FullLoader)["vpn-server"]
+        inventory_file.write(inventory_template.render(teams=teams, vpn=vpn_server))
+    
     teams = range(1, len(teams) + 1)
     gen.run(teams, 6, vpn_server["ip"])
     

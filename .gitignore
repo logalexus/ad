@@ -4,3 +4,5 @@
 config.yml
 ansible/inventory.ini
 /ansible/vpn
+/ansible/roles/vpn-client/files/vpns
+/ansible/roles/vpn-server/files/vpns

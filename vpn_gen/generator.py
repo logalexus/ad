@@ -98,7 +98,7 @@ class ConfigGenerator:
             team_num=team_num,
             static_key=static_key,
         )
-        ovpn_dump_path = os.path.join(config.VULN_CLIENT_DIR, f'vuln{formatted_team}.ovpn')
+        ovpn_dump_path = os.path.join(config.VULN_CLIENT_DIR, f'team{formatted_team}.ovpn')
         self._dump_file(rendered, ovpn_dump_path)
 
         rendered = self._get_rendered(

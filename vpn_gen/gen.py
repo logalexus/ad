@@ -15,8 +15,11 @@ sys.path = sys.path[1:]
 
 
 def initialize():
-    if os.path.exists(config.RESULT_DIR):
-        shutil.rmtree(config.RESULT_DIR)
+    if os.path.exists(config.RESULT_DIR_CLIENT):
+        shutil.rmtree(config.RESULT_DIR_CLIENT)
+    
+    if os.path.exists(config.RESULT_DIR_SERVER):
+        shutil.rmtree(config.RESULT_DIR_SERVER)
 
     os.makedirs(config.TEAM_SERVER_DIR, exist_ok=True)
     os.makedirs(config.VULN_SERVER_DIR, exist_ok=True)

@@ -1,0 +1,9 @@
+ - hosts: teams
+   become: yes
+   roles:
+     - vpn-client
+
+ - hosts: vpn-server
+   become: yes
+   roles:
+     - vpn-server

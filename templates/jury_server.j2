@@ -2,6 +2,9 @@ mode p2p
 
 port {{ config.JURY_PORT }}
 
+log /jury_vpn.log
+verb 3
+
 dev jury
 dev-type tun
 proto udp

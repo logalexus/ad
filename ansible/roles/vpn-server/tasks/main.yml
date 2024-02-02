@@ -1,0 +1,14 @@
+- name: Copy vpn server files
+  copy:
+    src: ./server
+    dest: /
+
+- name: Copy vpn configs
+  copy:
+    src: ./vpns
+    dest: /server
+
+- name: Up vpn server
+  shell: docker-compose up -d --build
+  args:
+    chdir: /server

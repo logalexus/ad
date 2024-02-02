@@ -1,0 +1,23 @@
+- name: Install OpenVPN
+  apt:
+    name: ["openvpn"]
+    state: present
+
+- name: Copy ovpn config
+  copy:
+    src: ./vpns/vuln/{{ inventory_hostname_short }}.ovpn
+    dest: /etc/openvpn/config.conf
+
+- name: Uncomment autostart
+  lineinfile:
+    path: /etc/default/openvpn
+    regexp: '^#AUTOSTART="all"'
+    line: 'AUTOSTART="all"'
+
+- name: Restart systemd
+  command: systemctl daemon-reload
+
+- name: Restart openvpn service
+  systemd:
+    name: openvpn
+    state: restarted
