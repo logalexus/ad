@@ -1,0 +1,4 @@
+- hosts: teams
+  become: true
+  roles:
+    - start-services

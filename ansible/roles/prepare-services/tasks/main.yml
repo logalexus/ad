@@ -1,0 +1,12 @@
+- name: Remove services if exists
+  file:
+    path: /services
+    state: absent
+
+- name: Copy services
+  copy:
+    src: ./
+    dest: /
+
+
+

@@ -1,0 +1,9 @@
+- name: Change perms for start.sh
+  file:
+    path: /start.sh
+    mode: a+x
+
+- name: Start services
+  shell: /start.sh
+
+
