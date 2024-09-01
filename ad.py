@@ -37,7 +37,8 @@ def generate_team_data(config):
     for i, team in enumerate(teams):
         team["id"] = f"team{i+1}"
         team['ip'] = f"10.{80 + (i+1) // 256}.{(i+1) % 256}.2"
-        team['root_password'] = generate_password()
+        if "root_password" not in team:
+            team['root_password'] = generate_password()
     logging.info("Generated team data")
     return teams
 
@@ -126,11 +127,6 @@ def generate_ansible():
     write_inventory_file(env, TEMPLATE_PATH, ANSIBLE_PATH,
                          teams, vpn_server, jury)
 
-    vpn_public_ip = get_vpn_public_ip(TERRAFORM_PATH)
-    if vpn_public_ip:
-        logging.info("Generating VPN configurations")
-        gen.run(range(1, len(teams) + 1), 6, vpn_public_ip)
-
 
 @cli.command(help="Generate terraform`s main.tf")
 def generate_terraform():
@@ -153,6 +149,10 @@ def generate_terraform():
 
 @cli.command(help="Generate result")
 def generate_result():
+    logging.info("Getting tokens for teams")
+    run_command(["ansible-playbook", "grab-tokens.yml",],
+                str(ANSIBLE_PATH.absolute()))
+
     logging.info("Generating result directory")
     config = load_config(CONFIG_PATH)
     env = setup_environment(BASE_PATH)
@@ -164,9 +164,22 @@ def generate_result():
 @click.pass_context
 def create(ctx):
     ctx.invoke(generate_terraform)
+
+    tfstate_path = TERRAFORM_PATH / "terraform.tfstate"
+    if not tfstate_path.exists():
+        run_command(["terraform", "init"],
+                    str(TERRAFORM_PATH.absolute()))
+
     logging.info("Applying Terraform configurations")
     run_command(["terraform", "apply", "-auto-approve"],
                 str(TERRAFORM_PATH.absolute()))
+
+    config = load_config(CONFIG_PATH)
+    teams = config.get("teams", [])
+    vpn_public_ip = get_vpn_public_ip(TERRAFORM_PATH)
+    if vpn_public_ip:
+        logging.info("Generating VPN configurations")
+        gen.run(range(1, len(teams) + 1), 6, vpn_public_ip)
 
 
 @cli.command(help="Destroy all VMs")

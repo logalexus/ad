@@ -8,18 +8,13 @@
     src: ./vpns/{{ group_names[0] }}/{{ inventory_hostname_short }}.ovpn
     dest: /etc/openvpn/config.conf
     mode: '0755'
+  notify:
+    - Restart openvpn
 
 - name: Uncomment autostart in /etc/default/openvpn
   ansible.builtin.lineinfile:
     path: /etc/default/openvpn
     regexp: '^#AUTOSTART="all"'
     line: 'AUTOSTART="all"'
-
-- name: Restart systemd
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-
-- name: Restart openvpn service
-  ansible.builtin.systemd:
-    name: openvpn
-    state: restarted
+  notify:
+    - Restart openvpn

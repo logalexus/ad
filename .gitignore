@@ -11,3 +11,4 @@ ansible/inventory.ini
 .vscode
 result
 tokens.txt
+vpn_gen/__pycache__
