@@ -2,7 +2,7 @@ client
 
 dev game
 dev-type tun
-proto udp
+proto {{ 'udp' if config.PROTOCOL == 'udp' else 'tcp-client'}} 
 
 remote {{ server_host }} {{ config.TEAM_PORT + team_num }}
 nobind
@@ -11,7 +11,7 @@ dev tun
 persist-key
 persist-tun
 
-cipher AES-128-CBC
+cipher AES-256-CBC
 verb 3
 
 remote-cert-tls server

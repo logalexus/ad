@@ -1,0 +1,25 @@
+- name: Copy config
+  ansible.builtin.copy:
+    remote_src: true
+    src: /forcad/config_temp.yml
+    dest: /forcad/config.yml
+    mode: '0755'
+
+- name: Reset Forcad
+  ansible.builtin.command: /forcad/control.py reset
+  register: result
+  failed_when: false
+
+- name: Clean Forcad
+  ansible.builtin.command: /forcad/control.py clean
+  register: result
+  failed_when: false
+
+- name: Setup Forcad
+  ansible.builtin.command: /forcad/control.py setup
+
+- name: Build Forcad
+  ansible.builtin.command: /forcad/control.py build
+
+- name: Start Forcad
+  ansible.builtin.command: /forcad/control.py start

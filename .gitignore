@@ -1,8 +1,14 @@
 /.vagrant
 /Vagrantfile
-/__pycache__
-config.yml
+__pycache__
 ansible/inventory.ini
 /ansible/vpn
 /ansible/roles/vpn-client/files/vpns
 /ansible/roles/vpn-server/files/vpns
+.venv
+.terraform*
+*tfstate*
+.vscode
+result
+tokens.txt
+vpn_gen/__pycache__

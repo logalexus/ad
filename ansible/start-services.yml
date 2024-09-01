@@ -1,4 +1,5 @@
-- hosts: teams
+- name: Copy services on vulnboxes
+  hosts: vuln
   become: true
   roles:
     - start-services

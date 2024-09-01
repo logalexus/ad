@@ -2,6 +2,8 @@ import subprocess
 import sys
 from typing import List
 import click
+import secrets
+import string
 
 
 def run_command(command: List[str], cwd=None, env=None):
@@ -22,3 +24,9 @@ def print_success(message: str):
 
 def print_bold(message: str):
     click.secho(message, bold=True, err=True)
+
+
+def generate_password(length: int = 20) -> str:
+    alphabet = string.ascii_letters + string.digits
+    password = ''.join(secrets.choice(alphabet) for i in range(length))
+    return password

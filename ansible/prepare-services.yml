@@ -1,4 +1,0 @@
-- hosts: teams
-  become: true
-  roles:
-    - prepare-services

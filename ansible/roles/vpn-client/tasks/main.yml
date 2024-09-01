@@ -1,23 +1,20 @@
 - name: Install OpenVPN
-  apt:
-    name: ["openvpn"]
+  ansible.builtin.apt:
+    name: openvpn
     state: present
 
 - name: Copy ovpn config
-  copy:
-    src: ./vpns/vuln/{{ inventory_hostname_short }}.ovpn
+  ansible.builtin.copy:
+    src: ./vpns/{{ group_names[0] }}/{{ inventory_hostname_short }}.ovpn
     dest: /etc/openvpn/config.conf
+    mode: '0755'
+  notify:
+    - Restart openvpn
 
-- name: Uncomment autostart
-  lineinfile:
+- name: Uncomment autostart in /etc/default/openvpn
+  ansible.builtin.lineinfile:
     path: /etc/default/openvpn
     regexp: '^#AUTOSTART="all"'
     line: 'AUTOSTART="all"'
-
-- name: Restart systemd
-  command: systemctl daemon-reload
-
-- name: Restart openvpn service
-  systemd:
-    name: openvpn
-    state: restarted
+  notify:
+    - Restart openvpn

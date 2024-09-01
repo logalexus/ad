@@ -1,0 +1,50 @@
+- name: Install necessary packages
+  ansible.builtin.apt:
+    pkg:
+      - python3-pip
+    update_cache: true
+
+- name: Ensure Forcad repository is cloned and updated
+  ansible.builtin.git:
+    repo: 'https://github.com/pomo-mondreganto/ForcAD.git'
+    dest: /forcad
+    version: master
+  register: repo_clone
+  failed_when:
+    - repo_clone.failed
+    - not 'Local modifications' in repo_clone.msg
+
+- name: Copy checkers
+  ansible.posix.synchronize:
+    src: '{{ inventory_dir }}/../checkers/'
+    dest: /forcad/checkers
+    checksum: true
+    owner: false
+    group: false
+    perms: false
+
+- name: Set permissions for checkers
+  ansible.builtin.command: bash ./set_x.sh
+  args:
+    chdir: /forcad/checkers
+
+- name: Install Forcad requirements.txt
+  ansible.builtin.pip:
+    requirements: /forcad/cli/requirements.txt
+    break_system_packages: true
+
+- name: Copy temp config
+  ansible.builtin.copy:
+    src: '{{ inventory_dir }}/../config.yml'
+    dest: /forcad/config_temp.yml
+    mode: '0755'
+  notify:
+    - Copy config
+    - Reset Forcad
+    - Clean Forcad
+    - Setup Forcad
+    - Build Forcad
+    - Start Forcad
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

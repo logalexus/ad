@@ -1,0 +1,37 @@
+game:
+  default_score: 2500
+  flag_lifetime: 10
+  game_hardness: 15
+  inflation: true
+  mode: classic
+  round_time: 20
+  start_time: 2024-09-02 01:32:00
+  timezone: Asia/Yekaterinburg
+tasks:
+- checker: neftetochka/checker.py
+  checker_timeout: 10
+  checker_type: nfr
+  gets: 1
+  name: neftetochka
+  places: 1
+  puts: 1
+- checker: explorers/checker.py
+  checker_timeout: 15
+  checker_type: pfr
+  gets: 1
+  name: explorers
+  places: 1
+  puts: 1
+teams:
+- name: SIGAN
+  id: team1
+  ip: 10.80.1.2
+  root_password: fIZfrlXqRsxHhVCe0nyx
+- name: mbl
+  id: team2
+  ip: 10.80.2.2
+  root_password: PPLpmW08Rmu3gbniVdA5
+vpn-server:
+  name: advpn
+jury:
+  name: jury

@@ -1,5 +1,11 @@
-[teams] {% for team in teams %}
-{{ team.id }} ansible_host="127.0.0.1" ansible_user=vagrant ansible_port={{ team.port }} ansible_ssh_private_key_file={{ team.private }} {% endfor %}
+[vuln] {% for team in teams %}
+{{ team.id }} ansible_host={{ team.id }}.devops.com root_password={{ team.root_password }} {% endfor %}
 
-[vpn-server]
-vpn ansible_host={{ vpn.ip }} ansible_user={{ vpn.username }} ansible_ssh_pass={{ vpn.password }}
+[jury]
+{{ jury.name }} ansible_host={{ jury.name }}.devops.com
+
+[vpn_server]
+{{ vpn.name }} ansible_host={{ vpn.name }}.devops.com
+
+[all:vars]
+ansible_user=ubuntu
