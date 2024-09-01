@@ -1,0 +1,58 @@
+- name: Install necessary packages
+  ansible.builtin.apt:
+    pkg:
+      - python3-pip
+    update_cache: true
+
+- name: Ensure Forcad repository is cloned and updated
+  ansible.builtin.git:
+    repo: 'https://github.com/pomo-mondreganto/ForcAD.git'
+    dest: /forcad
+    version: master
+    force: true
+
+- name: Copy config
+  ansible.builtin.copy:
+    src: '{{ inventory_dir }}/../config.yml'
+    dest: /forcad/config.yml
+    mode: '0755'
+
+- name: Copy checkers
+  ansible.posix.synchronize:
+    src: '{{ inventory_dir }}/../checkers/'
+    dest: /forcad/checkers
+    checksum: true
+    owner: false
+    group: false
+    perms: false
+
+- name: Set permissions for checkers
+  ansible.builtin.command: bash set_x.sh
+  args:
+    chdir: /forcad/checkers
+
+- name: Install Forcad requirements.txt
+  ansible.builtin.pip:
+    requirements: /forcad/cli/requirements.txt
+    break_system_packages: true
+
+- name: Setup Forcad
+  ansible.builtin.command: ./control.py setup
+  args:
+    chdir: /forcad
+
+- name: Start Forcad
+  ansible.builtin.command: ./control.py start --fast
+  args:
+    chdir: /forcad
+
+- name: Grab team tokens
+  ansible.builtin.shell: '/forcad/control.py print_tokens'
+  register: tokens
+
+- name: Write tokens to file on host
+  ansible.builtin.copy:
+    content: '{{ tokens.stdout }}'
+    dest: '{{ inventory_dir }}/../tokens.txt'
+    mode: '0755'
+  delegate_to: localhost

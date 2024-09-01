@@ -1,12 +1,8 @@
-- name: Remove services if exists
-  file:
-    path: /services
-    state: absent
-
 - name: Copy services
-  copy:
-    src: ./
-    dest: /
-
-
-
+  ansible.posix.synchronize:
+    src: "{{ inventory_dir }}/../services/"
+    dest: /services
+    checksum: true
+    owner: false
+    group: false
+    perms: false

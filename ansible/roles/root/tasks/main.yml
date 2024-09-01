@@ -1,0 +1,19 @@
+- name: Change password for root
+  ansible.builtin.user:
+    name: root
+    password: "{{ hostvars[inventory_hostname].root_password | password_hash('sha512') }}"
+    update_password: always
+
+- name: Set ssh PasswordAuthentication to yes
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PasswordAuthentication'
+    line: 'PasswordAuthentication yes'
+  notify: Restart ssh
+
+- name: Permit root login via SSH
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PermitRootLogin'
+    line: 'PermitRootLogin yes'
+  notify: Restart ssh

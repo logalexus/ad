@@ -1,0 +1,35 @@
+- name: Common prepare machines
+  hosts: all
+  become: true
+  roles:
+    - docker
+
+- name: Prepare root user on vulnboxes
+  hosts: vuln
+  become: true
+  roles:
+    - root
+
+- name: Deploy Forcad
+  hosts: jury
+  become: true
+  roles:
+    - forcad
+
+- name: Configure VPN server
+  hosts: vpn_server
+  become: true
+  roles:
+    - vpn-server
+
+- name: Configure VPN clients
+  hosts: vuln, jury
+  become: true
+  roles:
+    - vpn-client
+
+- name: Copy services on vulnboxes
+  hosts: vuln
+  become: true
+  roles:
+    - prepare-services

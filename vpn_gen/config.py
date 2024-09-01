@@ -5,7 +5,7 @@ RESULT_DIR_CLIENT = os.path.join(BASE_DIR, 'ansible', 'roles', 'vpn-client', 'fi
 RESULT_DIR_SERVER = os.path.join(BASE_DIR, 'ansible', 'roles', 'vpn-server', 'files', 'vpns')
 TEMPLATES_PATH = os.path.join(BASE_DIR, 'templates')
 
-TEAM_CLIENT_DIR = os.path.join(RESULT_DIR_CLIENT, 'team')
+TEAM_CLIENT_DIR = os.path.join(BASE_DIR, 'result')
 VULN_CLIENT_DIR = os.path.join(RESULT_DIR_CLIENT, 'vuln')
 JURY_CLIENT_DIR = os.path.join(RESULT_DIR_CLIENT, 'jury')
 
@@ -16,3 +16,5 @@ JURY_SERVER_DIR = os.path.join(RESULT_DIR_SERVER, 'jury')
 TEAM_PORT = 30000
 VULN_PORT = 31000
 JURY_PORT = 32000
+
+PROTOCOL = 'tcp'

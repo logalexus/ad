@@ -2,7 +2,7 @@ mode p2p
 
 dev game
 dev-type tun
-proto udp
+proto {{ 'udp' if config.PROTOCOL == 'udp' else 'tcp-client'}} 
 
 txqueuelen 1000
 mssfix 0

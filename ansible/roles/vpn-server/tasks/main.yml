@@ -1,14 +1,19 @@
 - name: Copy vpn server files
-  copy:
+  ansible.builtin.copy:
     src: ./server
     dest: /
+    mode: '0755'
 
 - name: Copy vpn configs
-  copy:
+  ansible.posix.synchronize:
     src: ./vpns
     dest: /server
+    checksum: true
+    owner: false
+    group: false
+    perms: false
 
 - name: Up vpn server
-  shell: docker-compose up -d --build
+  ansible.builtin.shell: docker compose up -d --build
   args:
     chdir: /server

@@ -7,9 +7,9 @@ log /teams_vpn.log
 verb 3
 
 port {{ config.TEAM_PORT + team_num }}
-proto udp
+proto {{ 'udp' if config.PROTOCOL == 'udp' else 'tcp-server'}} 
 
-cipher AES-128-CBC
+cipher AES-256-CBC
 
 user nobody
 group nogroup

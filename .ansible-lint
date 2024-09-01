@@ -1,0 +1,5 @@
+skip_list:
+- no-changed-when
+- command-instead-of-shell
+- yaml[line-length]
+- risky-shell-pipe
