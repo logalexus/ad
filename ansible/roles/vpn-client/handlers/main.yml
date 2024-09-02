@@ -1,3 +1,7 @@
+- name: Reload systemd
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
 - name: Restart openvpn
   ansible.builtin.service:
     name: openvpn

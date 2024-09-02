@@ -1,0 +1,5 @@
+- name: Stop unattended-upgrades service
+  ansible.builtin.service:
+    name: unattended-upgrades
+    state: stopped
+    enabled: false

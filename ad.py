@@ -174,12 +174,7 @@ def create(ctx):
     run_command(["terraform", "apply", "-auto-approve"],
                 str(TERRAFORM_PATH.absolute()))
 
-    config = load_config(CONFIG_PATH)
-    teams = config.get("teams", [])
-    vpn_public_ip = get_vpn_public_ip(TERRAFORM_PATH)
-    if vpn_public_ip:
-        logging.info("Generating VPN configurations")
-        gen.run(range(1, len(teams) + 1), 6, vpn_public_ip)
+    ctx.invoke(generate_vpn)
 
 
 @cli.command(help="Destroy all VMs")
@@ -187,6 +182,16 @@ def destroy():
     logging.info("Destroying all VMs")
     run_command(["terraform", "destroy", "-auto-approve"],
                 str(TERRAFORM_PATH.absolute()))
+
+
+@cli.command(help="Generate VPN")
+def generate_vpn():
+    vpn_public_ip = get_vpn_public_ip(TERRAFORM_PATH)
+    if vpn_public_ip:
+        config = load_config(CONFIG_PATH)
+        teams = config.get("teams", [])
+        logging.info("Generating VPN configurations")
+        gen.run(range(1, len(teams) + 1), 6, vpn_public_ip)
 
 
 @cli.command(help="Provision all VMs")

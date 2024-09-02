@@ -9,6 +9,7 @@
     dest: /etc/openvpn/config.conf
     mode: '0755'
   notify:
+    - Reload systemd
     - Restart openvpn
 
 - name: Uncomment autostart in /etc/default/openvpn
@@ -17,4 +18,5 @@
     regexp: '^#AUTOSTART="all"'
     line: 'AUTOSTART="all"'
   notify:
+    - Reload systemd
     - Restart openvpn
