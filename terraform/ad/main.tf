@@ -14,8 +14,8 @@ module "vuln" {
   subnet_id   = local.subnet_id
   dns_zone_id = local.dns_zone_id
   instance_resources = {
-    cores  = 2
-    memory = 2
+    cores  = 4
+    memory = 4
   }
 }
 
@@ -25,8 +25,8 @@ module "jury" {
   subnet_id   = local.subnet_id
   dns_zone_id = local.dns_zone_id
   instance_resources = {
-    cores  = 2
-    memory = 2
+    cores  = 4
+    memory = 4
   }
 }
 

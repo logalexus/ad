@@ -8,19 +8,40 @@ game:
   start_time: 2024-09-02 01:32:00
   timezone: Asia/Yekaterinburg
 tasks:
-- checker: neftetochka/checker.py
-  checker_timeout: 10
-  checker_type: nfr
+- checker: jeopardy/checker.py
+  checker_timeout: 15
+  checker_type: gevent_pfr
   gets: 1
-  name: neftetochka
+  name: jeopardy
   places: 1
   puts: 1
-- checker: explorers/checker.py
-  checker_timeout: 15
-  checker_type: pfr
+- checker: msngr/checker.py
+  checker_timeout: 20
+  checker_type: gevent_pfr
   gets: 1
-  name: explorers
+  name: msngr
   places: 1
+  puts: 1
+- checker: Zapiski/checker.py
+  checker_timeout: 5
+  checker_type: gevent_pfr
+  gets: 1
+  name: Zapiski
+  places: 1
+  puts: 1
+- checker: amogus_plus_plus/checker.py
+  checker_timeout: 20
+  checker_type: gevent_pfr
+  gets: 1
+  name: amogus_plus_plus
+  places: 3
+  puts: 1
+- checker: schizichs/checker.py
+  checker_timeout: 5
+  checker_type: gevent_pfr
+  gets: 1
+  name: schizichs
+  places: 3
   puts: 1
 teams:
 - name: SIGAN

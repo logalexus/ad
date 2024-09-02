@@ -23,10 +23,18 @@
     group: false
     perms: false
 
-- name: Set permissions for checkers
-  ansible.builtin.command: bash ./set_x.sh
-  args:
-    chdir: /forcad/checkers
+- name: Find all checker.py files
+  ansible.builtin.find:
+    paths: /forcad/checkers
+    patterns: checker.py
+    recurse: true
+  register: found_files
+
+- name: Set executable bit checker.py files
+  ansible.builtin.file:
+    path: '{{ item.path }}'
+    mode: 'a+x'
+  loop: '{{ found_files.files }}'
 
 - name: Install Forcad requirements.txt
   ansible.builtin.pip:

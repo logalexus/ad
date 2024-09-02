@@ -1,2 +1,12 @@
-- name: Start services
-  ansible.builtin.shell: bash /services/start.sh
+- name: Find all service directories
+  ansible.builtin.find:
+    paths: /services
+    file_type: directory
+    depth: 1
+  register: service_dirs
+
+- name: Run docker-compose up in each service directory
+  ansible.builtin.command: docker compose up -d --build
+  args:
+    chdir: '{{ item.path }}'
+  loop: '{{ service_dirs.files }}'

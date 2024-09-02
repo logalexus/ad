@@ -2,6 +2,7 @@
   hosts: all
   become: true
   roles:
+    - upgrades-disable
     - docker
 
 - name: Prepare root user on vulnboxes

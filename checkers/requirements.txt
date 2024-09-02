@@ -1,6 +1,6 @@
-checklib
-grpcio
-pycryptodome
-protobuf
-websocket-client==1.6.4
-gpxpy
+checklib==0.5.2
+requests==2.31.0
+beautifulsoup4==4.12.2
+checklib==0.5.2
+pwntools==4.10.0
+pycryptodome==3.18.0

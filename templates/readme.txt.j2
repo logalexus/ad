@@ -4,3 +4,17 @@ IP Address: {{ team.ip }}
 Username: root
 Password: {{ team.root_password }}
 Submit Token: {{ team.token }}
+
+Flag format: [A-Z0-9]{31}=
+Scoreboard: http://10.10.10.10
+Flag ids: http://10.10.10.10/api/client/attack_data
+Submit flags: http://10.10.10.10/flags
+
+Code for submit flags:
+
+import requests
+
+def submit_flags(team_token, flags):
+	print(requests.put(f'http://10.10.10.10/flags', headers={'X-Team-Token': team_token}, json=flags).text)
+
+submit_flags("{{ team.token }}", ["flag", "flag","flag"])
