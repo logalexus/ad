@@ -36,13 +36,6 @@ tasks:
   name: amogus_plus_plus
   places: 3
   puts: 1
-- checker: schizichs/checker.py
-  checker_timeout: 5
-  checker_type: gevent_pfr
-  gets: 1
-  name: schizichs
-  places: 3
-  puts: 1
 teams:
 - name: SIGAN
   id: team1

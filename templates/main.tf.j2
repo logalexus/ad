@@ -23,6 +23,7 @@ module "jury" {
   name        = "{{ jury.name }}"
   subnet_id   = local.subnet_id
   dns_zone_id = local.dns_zone_id
+  use_external_ip = true
   instance_resources = {
     cores  = 4
     memory = 4

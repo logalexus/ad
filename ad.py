@@ -184,6 +184,13 @@ def destroy():
                 str(TERRAFORM_PATH.absolute()))
 
 
+@cli.command(help="Deploy VPN network")
+def deploy_network():
+    logging.info("Deploying VPN network")
+    run_command(["ansible-playbook", "deploy-network.yml"],
+                str(ANSIBLE_PATH.absolute()))
+
+
 @cli.command(help="Generate VPN")
 def generate_vpn():
     vpn_public_ip = get_vpn_public_ip(TERRAFORM_PATH)
@@ -191,7 +198,7 @@ def generate_vpn():
         config = load_config(CONFIG_PATH)
         teams = config.get("teams", [])
         logging.info("Generating VPN configurations")
-        gen.run(range(1, len(teams) + 1), 6, vpn_public_ip)
+        gen.run(range(1, len(teams) + 1), 20, vpn_public_ip)
 
 
 @cli.command(help="Provision all VMs")

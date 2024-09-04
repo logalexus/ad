@@ -1,0 +1,18 @@
+- name: Common prepare machines
+  hosts: all
+  become: true
+  roles:
+    - upgrades-disable
+    - docker
+
+- name: Configure VPN server
+  hosts: vpn_server
+  become: true
+  roles:
+    - vpn-server
+
+- name: Configure VPN clients
+  hosts: vuln, jury
+  become: true
+  roles:
+    - vpn-client

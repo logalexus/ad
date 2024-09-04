@@ -1,4 +1,3 @@
-version: '3'
 services:
   openvpn:
     build: .
@@ -8,7 +7,7 @@ services:
     cap_add:
       - NET_ADMIN
     ports:
-      - "30001-30010:30001-30010/tcp"
-      - "31001-31010:31001-31010/tcp"
+      - "30001-30020:30001-30020/tcp"
+      - "31001-31020:31001-31020/tcp"
       - "32000:32000/tcp"
-    restart: unless-stopped
+    restart: always
