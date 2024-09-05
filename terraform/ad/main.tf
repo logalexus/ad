@@ -16,6 +16,9 @@ module "vuln" {
   instance_resources = {
     cores  = 4
     memory = 4
+    disk = {
+      disk_size = 30
+    }
   }
 }
 
@@ -24,9 +27,13 @@ module "jury" {
   name        = "jury"
   subnet_id   = local.subnet_id
   dns_zone_id = local.dns_zone_id
+  use_external_ip = true
   instance_resources = {
     cores  = 4
     memory = 4
+    disk = {
+      disk_size = 30
+    }
   }
 }
 

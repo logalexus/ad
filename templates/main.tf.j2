@@ -15,6 +15,9 @@ module "vuln" {
   instance_resources = {
     cores  = 4
     memory = 4
+    disk = {
+      disk_size = 30
+    }
   }
 }
 
@@ -27,6 +30,9 @@ module "jury" {
   instance_resources = {
     cores  = 4
     memory = 4
+    disk = {
+      disk_size = 30
+    }
   }
 }
 

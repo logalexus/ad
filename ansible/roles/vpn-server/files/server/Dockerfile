@@ -1,9 +1,7 @@
 FROM python:3.11
 
 RUN apt-get update && \
-    apt-get install -y openvpn iptables git
-
-RUN git clone https://github.com/pomo-mondreganto/ad_net_control.git
+    apt-get install -y openvpn iptables
 
 COPY network/* ./
 COPY vpns/jury/* ./

@@ -2,6 +2,7 @@ services:
   openvpn:
     build: .
     container_name: openvpn-server
+    privileged: true
     devices:
       - /dev/net/tun
     cap_add:

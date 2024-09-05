@@ -40,11 +40,11 @@ teams:
 - name: SIGAN
   id: team1
   ip: 10.80.1.2
-  root_password: fIZfrlXqRsxHhVCe0nyx
+  root_password: t3KT6Lzp6Bh3AkEIDlow
 - name: mbl
   id: team2
   ip: 10.80.2.2
-  root_password: PPLpmW08Rmu3gbniVdA5
+  root_password: QLVouAkiyrtOCus2jcUH
 vpn-server:
   name: advpn
 jury:

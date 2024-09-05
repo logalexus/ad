@@ -11,12 +11,6 @@
   roles:
     - root
 
-- name: Deploy Forcad
-  hosts: jury
-  become: true
-  roles:
-    - forcad
-
 - name: Configure VPN server
   hosts: vpn_server
   become: true
@@ -34,3 +28,9 @@
   become: true
   roles:
     - prepare-services
+
+- name: Deploy Forcad
+  hosts: jury
+  become: true
+  roles:
+    - forcad
