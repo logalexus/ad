@@ -18,11 +18,11 @@ cloud:
     disk: 30
 game:
   default_score: 2500
-  flag_lifetime: 10
-  game_hardness: 15
+  flag_lifetime: 5
+  game_hardness: 10
   inflation: true
   mode: classic
-  round_time: 20
+  round_time: 60
   start_time: 2024-09-02 01:32:00
   timezone: Asia/Yekaterinburg
 tasks:
@@ -31,13 +31,6 @@ tasks:
   checker_type: gevent_pfr
   gets: 1
   name: jeopardy
-  places: 1
-  puts: 1
-- checker: msngr/checker.py
-  checker_timeout: 20
-  checker_type: gevent_pfr
-  gets: 1
-  name: msngr
   places: 1
   puts: 1
 - checker: Zapiski/checker.py

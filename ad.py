@@ -9,6 +9,7 @@ from vpn_gen import gen
 from pathlib import Path
 import json
 import logging
+import shutil
 
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
 
@@ -107,6 +108,11 @@ def generate_readme_files(env, template_path, teams):
     logging.info(f"Generated readme.txt files in {RESULT_PATH}")
 
 
+def archivate_team_dirs(teams):
+    for team in teams:
+        shutil.make_archive(RESULT_PATH / team["name"], 'zip', RESULT_PATH / team["id"])
+
+
 @click.group()
 def cli():
     pass
@@ -156,6 +162,7 @@ def generate_result():
     env = setup_environment(BASE_PATH)
     teams = config.get("teams", [])
     generate_readme_files(env, TEMPLATE_PATH, teams)
+    archivate_team_dirs(teams)
 
 
 @cli.command(help="Create all VMs")
