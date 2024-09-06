@@ -4,6 +4,7 @@ locals {
   vms = [
     "team1", 
     "team2", 
+    "team3", 
   ]
 }
 

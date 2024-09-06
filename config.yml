@@ -1,3 +1,21 @@
+cloud:
+  subnet_id: e9b2hvniretjviruoq61
+  dns_zone_id: dns8jg2ig5tgnkhu0h54
+  vpn:
+    name: advpn
+    cpu: 2
+    mem: 2
+    disk: 10
+  jury:
+    name: jury
+    cpu: 4
+    mem: 4
+    disk: 30
+  vuln:
+    name: vuln
+    cpu: 4
+    mem: 4
+    disk: 30
 game:
   default_score: 2500
   flag_lifetime: 10
@@ -45,7 +63,7 @@ teams:
   id: team2
   ip: 10.80.2.2
   root_password: QLVouAkiyrtOCus2jcUH
-vpn-server:
-  name: advpn
-jury:
-  name: jury
+- name: FreePlay
+  id: team3
+  ip: 10.80.3.2
+  root_password: sPDZX4M9gRXff0dhMhNk

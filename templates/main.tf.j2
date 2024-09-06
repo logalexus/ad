@@ -1,6 +1,6 @@
 locals {
-  subnet_id   = "e9b2hvniretjviruoq61"
-  dns_zone_id = "dns8jg2ig5tgnkhu0h54"
+  subnet_id   = "{{ cloud.subnet_id }}"
+  dns_zone_id = "{{ cloud.dns_zone_id }}"
   vms = [{% for team in teams %}
     "{{ team.id }}", {% endfor %}
   ]
@@ -13,42 +13,42 @@ module "vuln" {
   subnet_id   = local.subnet_id
   dns_zone_id = local.dns_zone_id
   instance_resources = {
-    cores  = 4
-    memory = 4
+    cores  = {{ cloud.vuln.cpu }}
+    memory = {{ cloud.vuln.mem }}
     disk = {
-      disk_size = 30
+      disk_size = {{ cloud.vuln.disk }}
     }
   }
 }
 
 module "jury" {
   source      = "../modules/vm"
-  name        = "{{ jury.name }}"
+  name        = "{{ cloud.jury.name }}"
   subnet_id   = local.subnet_id
   dns_zone_id = local.dns_zone_id
   use_external_ip = true
   instance_resources = {
-    cores  = 4
-    memory = 4
+    cores  = {{ cloud.jury.cpu }}
+    memory = {{ cloud.jury.mem }}
     disk = {
-      disk_size = 30
+      disk_size = {{ cloud.jury.disk }}
     }
   }
 }
 
 module "vpn" {
   source          = "../modules/vm"
-  name            = "{{ vpn.name }}"
+  name            = "{{ cloud.vpn.name }}"
   subnet_id       = local.subnet_id
   dns_zone_id     = local.dns_zone_id
   use_external_ip = true
   instance_resources = {
     platform_id   = "standard-v2"
-    cores         = 2
-    memory        = 2
+    cores         = {{ cloud.vpn.cpu }}
+    memory        = {{ cloud.vpn.mem }}
     disk = {
       disk_type = "network-hdd"
-      disk_size = 10
+      disk_size = {{ cloud.vpn.disk }}
     }
   }
 }

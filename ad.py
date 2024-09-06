@@ -120,8 +120,8 @@ def generate_ansible():
     env = setup_environment(BASE_PATH)
 
     teams = generate_team_data(config)
-    vpn_server = config["vpn-server"]
-    jury = config["jury"]
+    vpn_server = config["cloud"]["vpn"]
+    jury = config["cloud"]["jury"]
 
     write_yaml_config(config, CONFIG_PATH)
     write_inventory_file(env, TEMPLATE_PATH, ANSIBLE_PATH,
@@ -136,15 +136,13 @@ def generate_terraform():
     env = setup_environment(BASE_PATH)
 
     teams = generate_team_data(config)
-    vpn_server = config["vpn-server"]
-    jury = config["jury"]
-
+    cloud = config.get("cloud", {})
     logging.info(
         f"Writing Terraform main configuration to {TERRAFORM_PATH / 'main.tf'}")
     terraform_template = env.get_template(str(TEMPLATE_PATH / 'main.tf.j2'))
     with open(TERRAFORM_PATH / "main.tf", 'w') as file:
         file.write(terraform_template.render(
-            teams=teams, vpn=vpn_server, jury=jury))
+            teams=teams, cloud=cloud))
 
 
 @cli.command(help="Generate result")
