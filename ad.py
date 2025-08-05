@@ -35,9 +35,11 @@ def setup_environment(base_path):
 
 def generate_team_data(config):
     teams = config.get("teams", [])
+    public_ips = get_public_ips(TERRAFORM_PATH, "module.vuln")
     for i, team in enumerate(teams):
         team["id"] = f"team{i+1}"
         team['ip'] = f"10.{80 + (i+1) // 256}.{(i+1) % 256}.2"
+        team['public_ip'] = public_ips.get(team["id"])
         if "root_password" not in team:
             team['root_password'] = generate_password()
     logging.info("Generated team data")
@@ -58,29 +60,37 @@ def write_inventory_file(env, template_path, ansible_path, teams, vpn_server, ju
             teams=teams, vpn=vpn_server, jury=jury))
 
 
-def get_vpn_public_ip(terraform_path):
+def get_public_ips(terraform_path, module_prefix):
+    """
+    Возвращает словарь {имя_ресурса: публичный_IP} для всех инстансов, чьи module начинается с module_prefix.
+    Например: module_prefix = "module.vuln", "module.vpn", "module.jury"
+    """
     tfstate_path = terraform_path / "terraform.tfstate"
     if not tfstate_path.exists():
         logging.critical(
             f"{tfstate_path} file not found - maybe you need to create resources in terraform/ad/ dir with command \"terraform apply\"")
-        return None
+        return {}
 
     logging.info(f"Reading terraform state from {tfstate_path}")
     with open(tfstate_path, "r") as file:
         tfstate = json.load(file)
 
-        vpn_resources = [resource for resource in tfstate["resources"]
-                         if resource["module"] == "module.vpn" and
-                         resource["type"] == "yandex_compute_instance"]
-        if len(vpn_resources) == 0:
-            logging.critical(
-                f"{tfstate_path} resources is empty - maybe you need to start resources in terraform/ad/ dir with command \"terraform apply\"")
-            return None
-
-        vpn_instance = vpn_resources[0]["instances"][0]
-        vpn_ip = vpn_instance["attributes"]["network_interface"][0]["nat_ip_address"]
-        logging.info(f"Retrieved VPN public IP: {vpn_ip}")
-        return vpn_ip
+        result = {}
+        for resource in tfstate.get("resources", []):
+            module = resource.get("module", "")
+            if module.startswith(module_prefix) and resource.get("type") == "yandex_compute_instance":
+                for instance in resource.get("instances", []):
+                    attributes = instance.get("attributes", {})
+                    interfaces = attributes.get("network_interface", [])
+                    if interfaces:
+                        ip = interfaces[0].get("nat_ip_address")
+                        # Имя достаем из module, например module.vuln["team1"] -> team1
+                        name = module.split(module_prefix)[-1].strip('["]')
+                        if not name:  # Если модуль без for_each (например vpn или jury)
+                            name = module_prefix.split('.')[-1]
+                        result[name] = ip
+        logging.info(f"Retrieved public IPs: {result}")
+        return result
 
 
 def generate_readme_files(env, template_path, teams):
@@ -126,8 +136,12 @@ def generate_ansible():
     env = setup_environment(BASE_PATH)
 
     teams = generate_team_data(config)
+    
     vpn_server = config["cloud"]["vpn"]
+    vpn_server["public_ip"] = get_public_ips(TERRAFORM_PATH, "module.vpn")["vpn"]
+    
     jury = config["cloud"]["jury"]
+    jury["public_ip"] = get_public_ips(TERRAFORM_PATH, "module.jury")["jury"]
 
     write_yaml_config(config, CONFIG_PATH)
     write_inventory_file(env, TEMPLATE_PATH, ANSIBLE_PATH,
@@ -198,7 +212,7 @@ def deploy_network():
 
 @cli.command(help="Generate VPN")
 def generate_vpn():
-    vpn_public_ip = get_vpn_public_ip(TERRAFORM_PATH)
+    vpn_public_ip = get_public_ips(TERRAFORM_PATH, "module.vpn")["vpn"]
     if vpn_public_ip:
         config = load_config(CONFIG_PATH)
         teams = config.get("teams", [])

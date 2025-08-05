@@ -1,11 +1,11 @@
 [vuln] {% for team in teams %}
-{{ team.id }} ansible_host={{ team.id }}.devops.com root_password={{ team.root_password }} {% endfor %}
+{{ team.id }} ansible_host={{ team.public_ip }} root_password={{ team.root_password }} {% endfor %}
 
 [jury]
-{{ jury.name }} ansible_host={{ jury.name }}.devops.com
+{{ jury.name }} ansible_host={{ jury.public_ip }}
 
 [vpn_server]
-{{ vpn.name }} ansible_host={{ vpn.name }}.devops.com
+{{ vpn.name }} ansible_host={{ vpn.public_ip }}
 
 [all:vars]
 ansible_user=ubuntu

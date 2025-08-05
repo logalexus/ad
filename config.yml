@@ -1,6 +1,4 @@
 cloud:
-  subnet_id: e9b2hvniretjviruoq61
-  dns_zone_id: dns8jg2ig5tgnkhu0h54
   vpn:
     name: advpn
     cpu: 2

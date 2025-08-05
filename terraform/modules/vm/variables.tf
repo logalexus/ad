@@ -35,7 +35,7 @@ variable "instance_resources" {
     memory        = optional(number, 2)
     core_fraction = optional(number, 100)
     disk = optional(object({
-      image_id  = optional(string, "fd8gqkbp69nel2ibb5pr")
+      image_id  = optional(string, "fd8bbhtvdodbbranefoe")
       disk_type = optional(string, "network-ssd")
       disk_size = optional(number, 15)
     }), {})

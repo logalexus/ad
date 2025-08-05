@@ -1,5 +1,4 @@
 - name: Grab tokens
   hosts: jury
-  become: true
   roles:
     - tokens

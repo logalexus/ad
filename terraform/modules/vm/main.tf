@@ -41,12 +41,3 @@ resource "yandex_compute_instance" "vm" {
     preemptible = true
   }
 }
-
-resource "yandex_dns_recordset" "rs1" {
-  count   = var.dns_zone_id != null ? 1 : 0
-  zone_id = var.dns_zone_id
-  name    = var.name
-  type    = "A"
-  ttl     = 200
-  data    = [yandex_compute_instance.vm.network_interface.0.ip_address]
-}

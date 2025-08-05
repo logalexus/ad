@@ -1,6 +1,7 @@
 - name: Grab team tokens
   ansible.builtin.shell: "/forcad/control.py print_tokens"
   register: tokens
+  become: true
 
 - name: Write tokens to file on host
   ansible.builtin.copy:

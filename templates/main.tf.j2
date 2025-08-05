@@ -1,6 +1,4 @@
 locals {
-  subnet_id   = "{{ cloud.subnet_id }}"
-  dns_zone_id = "{{ cloud.dns_zone_id }}"
   vms = [{% for team in teams %}
     "{{ team.id }}", {% endfor %}
   ]
@@ -10,8 +8,8 @@ module "vuln" {
   source      = "../modules/vm"
   for_each    = toset(local.vms)
   name        = each.key
-  subnet_id   = local.subnet_id
-  dns_zone_id = local.dns_zone_id
+  subnet_id   = yandex_vpc_subnet.ad-subnet.id
+  use_external_ip = true
   instance_resources = {
     cores  = {{ cloud.vuln.cpu }}
     memory = {{ cloud.vuln.mem }}
@@ -24,8 +22,7 @@ module "vuln" {
 module "jury" {
   source      = "../modules/vm"
   name        = "{{ cloud.jury.name }}"
-  subnet_id   = local.subnet_id
-  dns_zone_id = local.dns_zone_id
+  subnet_id   = yandex_vpc_subnet.ad-subnet.id
   use_external_ip = true
   instance_resources = {
     cores  = {{ cloud.jury.cpu }}
@@ -39,8 +36,7 @@ module "jury" {
 module "vpn" {
   source          = "../modules/vm"
   name            = "{{ cloud.vpn.name }}"
-  subnet_id       = local.subnet_id
-  dns_zone_id     = local.dns_zone_id
+  subnet_id       = yandex_vpc_subnet.ad-subnet.id
   use_external_ip = true
   instance_resources = {
     platform_id   = "standard-v2"
@@ -50,6 +46,35 @@ module "vpn" {
       disk_type = "network-hdd"
       disk_size = {{ cloud.vpn.disk }}
     }
+  }
+}
+
+resource "yandex_vpc_network" "ad-net" {
+  name        = "network-ad"
+  description = "AD network"
+}
+
+resource "yandex_vpc_subnet" "ad-subnet" {
+  name           = "subnet-ad"
+  description    = "AD subnet"
+  v4_cidr_blocks = ["10.2.0.0/16"]
+  zone           = "ru-central1-a"
+  network_id     = yandex_vpc_network.ad-net.id
+  route_table_id = yandex_vpc_route_table.rt.id
+}
+
+resource "yandex_vpc_gateway" "nat_gateway" {
+  name = "ad-gateway"
+  shared_egress_gateway {}
+}
+
+resource "yandex_vpc_route_table" "rt" {
+  name       = "ad-route-table"
+  network_id = yandex_vpc_network.ad-net.id
+
+  static_route {
+    destination_prefix = "0.0.0.0/0"
+    gateway_id         = yandex_vpc_gateway.nat_gateway.id
   }
 }
 
