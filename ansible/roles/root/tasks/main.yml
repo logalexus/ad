@@ -17,3 +17,24 @@
     regexp: '^#?PermitRootLogin'
     line: 'PermitRootLogin yes'
   notify: Restart ssh
+
+- name: Clean restrictions from root authorized_keys
+  ansible.builtin.lineinfile:
+    path: /root/.ssh/authorized_keys
+    regexp: '^.*exit 142" (.*)$'
+    line: '\1'
+    backrefs: yes
+
+- name: Find all SSH config fragments
+  ansible.builtin.find:
+    paths: /etc/ssh/sshd_config.d
+    file_type: file
+  register: sshd_fragments
+
+- name: Remove all SSH config fragments
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ sshd_fragments.files }}"
+  notify: Restart ssh
+

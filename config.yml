@@ -16,34 +16,48 @@ cloud:
     disk: 30
 game:
   default_score: 2500
-  flag_lifetime: 5
+  flag_lifetime: 10
   game_hardness: 10
   inflation: true
   mode: classic
   round_time: 60
-  start_time: 2024-09-02 01:32:00
-  timezone: Asia/Yekaterinburg
+  start_time: 2025-09-01 20:00:00
+  timezone: Europe/Moscow
 tasks:
-- checker: jeopardy/checker.py
-  checker_timeout: 15
-  checker_type: gevent_pfr
-  gets: 1
-  name: jeopardy
-  places: 1
-  puts: 1
-- checker: Zapiski/checker.py
-  checker_timeout: 5
-  checker_type: gevent_pfr
-  gets: 1
-  name: Zapiski
-  places: 1
-  puts: 1
-- checker: amogus_plus_plus/checker.py
+- checker: bimba/checker.py
   checker_timeout: 20
   checker_type: gevent_pfr
   gets: 1
-  name: amogus_plus_plus
-  places: 3
+  name: bimba
+  places: 1
+  puts: 1
+- checker: FileStorage/checker.py
+  checker_timeout: 20
+  checker_type: gevent_pfr
+  gets: 1
+  name: file_storage
+  places: 1
+  puts: 1
+- checker: magazinchik/checker.py
+  checker_timeout: 20
+  checker_type: gevent_pfr
+  gets: 1
+  name: magazinchik
+  places: 1
+  puts: 1
+- checker: rce-as-a-service/checker.py
+  checker_timeout: 20
+  checker_type: gevent_pfr
+  gets: 1
+  name: rce-as-a-service
+  places: 1
+  puts: 1
+- checker: shpagodrach/checker.py
+  checker_timeout: 20
+  checker_type: gevent
+  gets: 1
+  name: shpagodrach
+  places: 1
   puts: 1
 teams:
 - name: SIGAN

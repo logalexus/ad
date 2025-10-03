@@ -39,7 +39,7 @@
 - name: Install Forcad requirements.txt
   ansible.builtin.pip:
     requirements: /forcad/cli/requirements.txt
-    break_system_packages: true
+    extra_args: --break-system-packages
 
 - name: Copy temp config
   ansible.builtin.copy:

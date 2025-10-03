@@ -16,7 +16,7 @@ module "vuln" {
     cores  = 4
     memory = 4
     disk = {
-      disk_size = 30
+      disk_size = 50
     }
   }
 }
